@@ -1,9 +1,4 @@
-# aodtoptimization
-
-
-
-
-#A guide to Installing NVIDIA Omniverse Aerial DT (Simplified)
+# A guide to Installing NVIDIA Omniverse Aerial DT (Simplified with solutions to common problems)
 
 # 1. The requirements that worked for my system but does not say so in the official documentation:
 
