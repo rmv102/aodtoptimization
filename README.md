@@ -38,6 +38,9 @@ ALternatively, you can use your API Key to download the zip files straight from 
 # 3. To actually install and run it, do:
 
 ./aodt_bundle/install.sh localhost $NGC_CLI_API_KEY
+
+
+
 The output should say something about a vnc server running.
 
 NOTE: DO NOT TRY INSTALLING IT AGAIN, IT DOESN't RUN IF THERE ARE TWO INSTALLATIONS. Also, another problem comes up when you add quotations when you are installing from a website using curl. The symbol " is not the same across all operating systems, and this installation doesn't install the whole thing, but only the webpage. You will know the installation is working if a 8gb file is being downloaded.
