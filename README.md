@@ -1,6 +1,6 @@
 # A Roadmap to Develop DT Leveraging NVIDIA Omniverse (Simplified with solutions to common problems)
 
-# 1. The requirements that worked for my system but does not say so in the official documentation:
+## 1. The requirements that worked for my system but does not say so in the official documentation:
 
 OS: Ubuntu 22.04 LTS
 Hardware: 
