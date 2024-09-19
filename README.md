@@ -13,7 +13,7 @@ Hardware:
 *If you are using 2 GPus in 1 machine, you need to change the docker-compose.yml file so the application doesn't only run on one GPU*
 
 
-# 2. Before you can install the application, you need to join the 6G developer program for NVIDIA Omniverse: https://developer.nvidia.com/6g-program
+## 2. Before you can install the application, you need to join the 6G developer program for NVIDIA Omniverse: https://developer.nvidia.com/6g-program
 Next, head on over to the the NVIDIA website, create an account and get an API key from the NGC Catalog: https://docs.nvidia.com/ngc/gpu-cloud/ngc-user-guide/index.html
 
 NOTE: DO NOT MAKE A "Personal Key", YOU NEED TO MAKE AN OFFICIAL API KEY, OTHERWISE IT WILL NOT WORK
@@ -35,7 +35,7 @@ curl -L "https://api.ngc.nvidia.com/v2/org/esee5uzbruax/resources/aodt-installer
 
 ALternatively, you can use your API Key to download the zip files straight from the NGC catalog. It will produce the same aodt_bundle.zip.
 
-# 3. To actually install and run it, do:
+## 3. To actually install and run it, do:
 
 ./aodt_bundle/install.sh localhost $NGC_CLI_API_KEY
 
@@ -47,7 +47,7 @@ NOTE: DO NOT TRY INSTALLING IT AGAIN, IT DOESN't RUN IF THERE ARE TWO INSTALLATI
 
 Next, you need to get a VNC client to log into the system. If you are using a VM, tunnel an external port to internal port 5901. When prompted with a password, enter "nvidia"
 
-# 4. Opening the launcher and starting the backend
+## 4. Opening the launcher and starting the backend
 Once the launcher starts up, you will see NVIDIA Aerial DT in the library tab. Before you launch it, you must go to the "backend_bundle" folder and Update the "docker-compose.yml" file. There should be an array named "gpus" that says ['0']. In order for both the GPUs to be used (becauset he whole application is only running on one gpu), you have to change that '0' in the array to '1'. So it should look something like gpus: ['1'];
 
 Then, you can simply run "docker-compose up" to start up the backend. 
