@@ -57,7 +57,7 @@ When you launch the application, the username is "omniverse" and password is "ae
 NOTE: IN THE ACTUAL CONFIGURATION OF THE NVIDIA AERIAL CONFIGURATION TAB, YOU CANNOT PUT "localhost" FOR YOUR BACKEND INFORMATION, YOU MUST PUT THE LOCAL IP ADDRESS OF YOUR SYSTEM. For me, I just replaced localhost with 192.168.75.133 in order to connect the "worker".
 
 
-#How to get heatmaps from AODT
+# How to get heatmaps from AODT
 
 Input the python script into your clickhouse database buy putting the script into your folder. This script generates a csv file with RU coordinates and creates a heatmap out of the signal strength values. Then use an online heatmap generator that accepts csvs (I suggest http://www.heatmapper.ca/geocoordinate/). This tool helps good visuals like this:
 
