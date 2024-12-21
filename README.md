@@ -69,7 +69,9 @@ Input the python script into your clickhouse database buy putting the script int
 ![image](https://github.com/user-attachments/assets/840cd2f4-9790-4920-ad3d-a31972423755)
 
 
+# Automate the process for network planning (to be updated)
 
+(add dynamic .gif figures, the resultant best BS placement and configuration, etc.)
 
 
 
