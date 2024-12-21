@@ -59,7 +59,7 @@ NOTE: IN THE ACTUAL CONFIGURATION OF THE NVIDIA AERIAL CONFIGURATION TAB, YOU CA
 
 # How to get heatmaps from AODT
 
-Input the python script into your clickhouse database buy putting the script into your folder. This script generates a csv file with RU coordinates and creates a heatmap out of the signal strength values. Then use an online heatmap generator that accepts csvs (I suggest http://www.heatmapper.ca/geocoordinate/). This tool helps good visuals like this:
+Input the python script into your clickhouse database buy putting the script into your folder. This script generates a csv file with RU coordinates and creates a heatmap out of the signal strength values. Then use an online heatmap generator that accepts csvs (e.g. http://www.heatmapper.ca/geocoordinate/). This tool helps good visuals like this:
 
 
 ![image](https://github.com/user-attachments/assets/38e1231a-bd23-4609-97d3-3d42df15d637)
