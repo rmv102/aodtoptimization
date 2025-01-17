@@ -68,10 +68,36 @@ Input the python script into your clickhouse database buy putting the script int
 
 ![image](https://github.com/user-attachments/assets/840cd2f4-9790-4920-ad3d-a31972423755)
 
+3 Base Stations:
+![image](https://github.com/user-attachments/assets/2b83c732-c665-4f77-820c-a0d5ba490d7b)
 
-## 6. Automate the process for network planning (to be updated)
 
-(add dynamic .gif figures, the resultant best BS placement and configuration, etc.)
+
+
+
+## 6. Using the Scripts
+
+There are two scripts in this github.
+
+One of them is **baseStationCoordinates.py**. This script is designed to make a csv file with a base station configuration. You can then visit sites like http://www.heatmapper.ca/geocoordinate/ to generate the respective heatmap and get a visual.
+
+The other script, **base_station_brute_force_script.py**, this script picks buildings and based on the number of base stations, the script automates the process of placing base stations on buildings (buildings are found in .USD maps by a certain given height). Then, for every case, it adds up all the scores of the signal strength and returns the highest. For example, and output might look like this:
+
+
+Console Output:
+Configuration(
+    ru_locations=[
+        (100.0, 100.0, 30.0),  # RU 1 position
+        (200.0, 200.0, 40.0),  # RU 2 position
+        (300.0, 150.0, 35.0),  # RU 3 position
+        (-100.0, -100.0, 45.0)  # RU 4 position
+    ],
+    score=156.78  # Example throughput score
+)
+
+
+
+
 
 
 
