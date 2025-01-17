@@ -86,12 +86,12 @@ The other script, **base_station_brute_force_script.py**, this script picks buil
 
 Console Output:
 Configuration(
-    ru_locations=[
+    ru_locations=
         (100.0, 100.0, 30.0),  # RU 1 position
         (200.0, 200.0, 40.0),  # RU 2 position
         (300.0, 150.0, 35.0),  # RU 3 position
         (-100.0, -100.0, 45.0)  # RU 4 position
-    ],
+    
     score=156.78  # Example throughput score
 )
 
