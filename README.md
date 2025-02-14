@@ -120,3 +120,10 @@ The resolution for all of these pictures isn't good because its difficult to fit
 ![image](https://github.com/user-attachments/assets/5cceec20-dfd6-4299-ad1c-75ae6fe244e1)
 
 
+Lastly, more complex configurations can be done, such as not having all the base station clusters in 1 row but stacked on top of each other:
+
+![image](https://github.com/user-attachments/assets/ccf5dd94-ade9-45b2-abc8-4ea6a94e82c8)
+
+
+
+
