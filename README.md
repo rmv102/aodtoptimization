@@ -90,10 +90,33 @@ The other script, **base_station_brute_force_script.py**, this script picks buil
 
 
 
+## 7. Script Demos
+
+Here are a bunch of trial runs that were performed using the two scripts mentioned. These are all triangle shapes divided into 500x500 meter clusters.
 
 
 
+Here is the default shape to get us started:
+
+![triangle_shape](https://github.com/user-attachments/assets/35ffbd7d-62e9-4b2e-bf41-2956db84d69b)
 
 
+
+Here are two of those cluster blocks with what the script thinks is the optimal solution for optimization in each cluster:
+
+
+![image](https://github.com/user-attachments/assets/97ca0075-955e-49b3-8367-e9e66cf92867)
+
+
+
+This is with 3 of those cluster blocks, again inside a row:
+
+![image](https://github.com/user-attachments/assets/c28e2553-9c89-4872-950f-021063bc0d1b)
+
+
+The resolution for all of these pictures isn't good because its difficult to fit all of them in 1 frame. Here is what one of them looks like closeup:
+
+
+![image](https://github.com/user-attachments/assets/5cceec20-dfd6-4299-ad1c-75ae6fe244e1)
 
 
