@@ -1,6 +1,6 @@
 # A Roadmap to Develop DT Leveraging NVIDIA Omniverse (Simplified with solutions to common problems)
 
-## 1. The requirements that worked for my system but does not say so in the official documentation:
+## 1. System requirements:
 
 OS: Ubuntu 22.04 LTS
 Hardware: 
@@ -57,7 +57,7 @@ When you launch the application, the username is "omniverse" and password is "ae
 NOTE: IN THE ACTUAL CONFIGURATION OF THE NVIDIA AERIAL CONFIGURATION TAB, YOU CANNOT PUT "localhost" FOR YOUR BACKEND INFORMATION, YOU MUST PUT THE LOCAL IP ADDRESS OF YOUR SYSTEM. For me, I just replaced localhost with 192.168.75.133 in order to connect the "worker".
 
 
-## 5. Obtain coverage maps from AODT
+## 5. Obtain data and coverage maps from AODT
 
 Input the python script into your clickhouse database buy putting the script into your folder. This script generates a csv file with RU coordinates and creates a heatmap out of the signal strength values. Then use an online heatmap generator that accepts csvs (e.g. http://www.heatmapper.ca/geocoordinate/). This tool helps good visuals like this:
 
@@ -75,13 +75,15 @@ Input the python script into your clickhouse database buy putting the script int
 
 
 
-## 6. Using the Scripts
+## 6. Provided example scripts
 
 There are two scripts in this github.
 
-One of them is **baseStationCoordinates.py**. This script is designed to make a csv file with a base station configuration. You can then visit sites like http://www.heatmapper.ca/geocoordinate/ to generate the respective heatmap and get a visual.
+### Data Generation 
+One of them is **baseStationCoordinates.py**. This script is designed to make a csv file with a base station configuration. You can then visit sites like http://www.heatmapper.ca/geocoordinate/ to generate the respective visualized heatmaps.
 
-The other script, **base_station_brute_force_script.py**, this script picks buildings and based on the number of base stations, the script automates the process of placing base stations on buildings (buildings are found in .USD maps by a certain given height). Then, for every case, it adds up all the scores of the signal strength and returns the highest. For example, and output might look like this:
+### Optimizing Infrastracture Planning 
+The other script, **base_station_brute_force_script.py**, this script picks buildings in urban environment (e.g. Raleigh City, NC) and based on the number of deployed 5G base stations, the script automates the process of placing base stations on buildings (buildings are found in .USD maps by a certain given height). Then, for every case, it adds up all the scores of the signal strength and returns the highest. For example, and output might look like this:
 
 
 
@@ -90,7 +92,7 @@ The other script, **base_station_brute_force_script.py**, this script picks buil
 
 
 
-## 7. Script Demos
+## 7. Demos
 
 Here are a bunch of trial runs that were performed using the two scripts mentioned. These are all triangle shapes divided into 500x500 meter clusters.
 
