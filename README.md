@@ -135,7 +135,7 @@ Maulik Verma
 Yuchen Liu (NCSU) 
 
 ## Acknowledgement:
-NVIDIA Omniverse Platform
+NVIDIA Omniverse Platform 
 
 NAIRR Pilot Demonstration Project
 
