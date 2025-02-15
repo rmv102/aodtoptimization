@@ -131,10 +131,12 @@ Lastly, more complex configurations can be done, such as not having all the base
 
 ## Contact:
 Maulik Verma
+
 Yuchen Liu (NCSU)
 
 ## Acknowledgement:
 NVIDIA Omniverse Platform
+
 NAIRR Pilot Demonstration Project
 
 
