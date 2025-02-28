@@ -98,36 +98,39 @@ Here are a bunch of trial runs that were performed using the two scripts mention
 
 
 
-Here is the default shape to get us started:
+Here is a singular cluster block shape with 3 base stations inside. This is the heatmap of the optimal position of the base stations, and the radio icons indicate the approximate location of these base stations on the actual map. The variance in the shape and structure has to do with many factors, such as terrain elevation, surrounding buildings, interference sources, etc.
 
 ![image](https://github.com/user-attachments/assets/691b8dcb-28fc-4e59-8708-89e933efd1ba)
 
 
 
 
-Here are two of those cluster blocks with what the script thinks is the optimal solution for optimization in each cluster:
+In this setup, the optimization script is applied to two adjacent clusters, each measuring approximately 500x500 meters. Each cluster contains three base stations that are strategically placed to ensure seamless coverage across both areas while minimizing overlapping interference.
 
+This scenario demonstrates how the optimization process scales when multiple clusters are involved, adapting dynamically to maintain signal strength and efficiency across a larger area.
 
 ![image](https://github.com/user-attachments/assets/5f971515-159e-4360-a501-d28f384a9640)
 
 
 
 
-This is with 3 of those cluster blocks, again inside a row:
+Expanding further, this example illustrates three consecutive cluster blocks, each optimized for three base stations. As more clusters are added, the complexity of the optimization process increases, requiring careful balancing of coverage, signal strength, and interference mitigation across all three areas.
+
+This simulation provides insights into how base stations can be arranged in larger network deployments, ensuring continuous and reliable connectivity across extended regions.
 
 ![image](https://github.com/user-attachments/assets/4c8ba79e-7935-40f5-af42-a18fbb8b2a30)
 
 
 
-The resolution for all of these pictures isn't good because its difficult to fit all of them in 1 frame. Here is what one of them looks like closeup:
+Due to the wide area covered in previous images, resolution limitations make it difficult to capture finer details. The image below provides a close-up view of a single cluster, showcasing the more precise placement of base stations and the intricate heatmap patterns that result from the optimization process.
 
+This close-up highlights how signal distribution is affected by environmental factors at a granular level, further refining the accuracy of base station positioning.
 
 ![image](https://github.com/user-attachments/assets/79d0016c-a2f7-4898-a3f0-49eea525c0a3)
 
 
 
-Lastly, more complex configurations can be done, such as not having all the base station clusters in 1 row but stacked on top of each other:
-
+Finally, more complex configurations are possible beyond linear cluster arrangements. The example below demonstrates a stacked cluster approach, where base station clusters are positioned in a layered structure rather than in a single row.
 ![image](https://github.com/user-attachments/assets/fbf931a0-b370-4392-beaa-279a93b4c3b5)
 
 
