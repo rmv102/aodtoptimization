@@ -92,7 +92,7 @@ The other script, **base_station_brute_force_script.py**, this script picks buil
 
 
 
-## 7. Demos (Cluster based optimization)
+## 7. Demos (Cluster-based network coverage optimization using Onmiverse DT)
 
 Here are a bunch of trial runs that were performed using the two scripts mentioned. These are all triangle shapes divided into 500x500 meter clusters.
 
