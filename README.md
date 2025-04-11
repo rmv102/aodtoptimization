@@ -133,8 +133,10 @@ This close-up highlights how signal distribution is affected by environmental fa
 Finally, more complex configurations are possible beyond linear cluster arrangements. The example below demonstrates a stacked cluster approach, where base station clusters are positioned in a layered structure rather than in a single row.
 ![image](https://github.com/user-attachments/assets/fbf931a0-b370-4392-beaa-279a93b4c3b5)
 
+### Upcoming Updates / Motivation
+I will be adding implementation for Particle Swarm Optimization algorithm. The reason for this is to allow for the optimization of atennas and base station position for the same exact time, allowing for much faster optimiation as opposed to brute force method we are currently utilizing. The particles flow independently and reform their position to navigate their way towards the best position, which in our case iswhere the base station along with it's antennas are optimized. Here is what it looks like: 
 
-
+https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FParticle_swarm_optimization&psig=AOvVaw36x1gX1M2SVBNpmR974rgd&ust=1744471926515000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJist72m0IwDFQAAAAAdAAAAABAE
 
 ## Contact:
 Maulik Verma
