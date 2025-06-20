@@ -83,10 +83,17 @@ class PSO:
         }
 
         # If logging to CSV, ensure the header is present
-        if self.csv_log_path and not os.path.exists(self.csv_log_path):
-             with open(self.csv_log_path, 'w', newline='') as f:
-                writer = csv.writer(f)
-                writer.writerow(['iteration', 'ru_id', 'pos_x', 'pos_y', 'frequency_ghz', 'elements', 'gbest_fitness_score'])
+        if self.csv_log_path:
+            # Check if file exists and is empty to write header
+            write_header = not os.path.exists(self.csv_log_path) or os.path.getsize(self.csv_log_path) == 0
+            if write_header:
+                try:
+                    with open(self.csv_log_path, 'w', newline='') as f:
+                        writer = csv.writer(f)
+                        writer.writerow(['iteration', 'ru_id', 'pos_x', 'pos_y', 'pos_z', 'frequency_ghz', 'elements', 'gbest_fitness_score'])
+                except IOError as e:
+                    print(f"Warning: Could not write header to CSV log file {self.csv_log_path}. Error: {e}")
+                    self.csv_log_path = None # Disable logging if header fails
 
     def _initialize_swarm(self):
         """Initializes the swarm's positions, velocities, and bests."""
@@ -145,7 +152,8 @@ class PSO:
                         f"{params[0]:.2f}",
                         f"{params[1]:.2f}",
                         f"{params[2]:.2f}",
-                        int(round(params[3])),
+                        f"{params[3]:.2f}",
+                        int(round(params[4])),
                         f"{self.gbest_fitness:.4f}"
                     ]
                     writer.writerow(row)

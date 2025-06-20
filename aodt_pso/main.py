@@ -23,7 +23,7 @@ from visualization.plot_3d import plot_scene
 
 # --- Simulation Parameters ---
 AREA_BOUNDS = (0, 1000, 0, 1000)
-RU_HEIGHT = 15.0
+RU_Z_BOUNDS = (10.0, 50.0) # Z-bounds for RU height optimization
 UE_HEIGHT = 1.5
 NUM_RUS = 3
 NUM_UES = 200
@@ -36,14 +36,14 @@ OUTPUT_CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data
 
 def parse_pso_solution(solution: np.ndarray, num_rus: int):
     """Parses a flat solution vector from PSO into a list of RU objects."""
-    params_per_ru = 4  # x, y, freq, elements
+    params_per_ru = 5  # x, y, z, freq, elements
     rus = []
     solution_reshaped = solution.reshape((num_rus, params_per_ru))
     
     for params in solution_reshaped:
-        pos = np.array([params[0], params[1], RU_HEIGHT])
-        freq = params[2]
-        elements = int(round(params[3]))
+        pos = np.array([params[0], params[1], params[2]])
+        freq = params[3]
+        elements = int(round(params[4]))
         elements = np.clip(elements, 1, 8)
         ant = Antenna(freq=freq, elements=elements)
         rus.append(RU(position=pos, antenna=ant))
@@ -116,6 +116,7 @@ if __name__ == "__main__":
         bounds.extend([
             (AREA_BOUNDS[0], AREA_BOUNDS[1]),
             (AREA_BOUNDS[2], AREA_BOUNDS[3]),
+            (RU_Z_BOUNDS[0], RU_Z_BOUNDS[1]),
             (2.0, 6.0),
             (1, 8)
         ])
@@ -145,7 +146,7 @@ if __name__ == "__main__":
     print("\nOptimized Base Station Configurations:")
     for i, ru in enumerate(optimized_rus):
         pos, ant = ru.position, ru.antenna
-        print(f"  RU-{i+1}: Pos=({pos[0]:.2f}, {pos[1]:.2f}), Freq={ant.freq:.2f} GHz, Elem={ant.elements}")
+        print(f"  RU-{i+1}: Pos=({pos[0]:.2f}, {pos[1]:.2f}, {pos[2]:.2f}), Freq={ant.freq:.2f} GHz, Elem={ant.elements}")
 
     print("\n--- 4. Plotting Performance ---")
     plot_convergence(pso_log)
