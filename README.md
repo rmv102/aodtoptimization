@@ -141,14 +141,14 @@ https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FPart
 
 ---
 
-# AODT-PSO: 5G Base Station Optimization using PSO
+# AODT-PSO: 5G Radio Unit and Antenna Optimization using PSO
 
-This project uses Particle Swarm Optimization (PSO) to find the optimal placement and configuration of 5G base stations (Radio Units - RUs) in a simulated environment. The optimization targets multiple parameters for each base station to maximize network coverage and quality for a given set of users (User Equipments - UEs).
+This project uses Particle Swarm Optimization (PSO) to find the optimal placement and antenna configuration of 5G base stations (Radio Units - RUs) in a digital twin environment. The optimization targets multiple parameters for each RU to maximize network coverage and QoS for a given set of users (User Equipments - UEs).
 
 ## Optimized Parameters
 
 The PSO algorithm simultaneously optimizes three key parameters for each base station:
-1.  **Location**: The `(x, y)` coordinates within the defined simulation area.
+1.  **RU Location**: The `(x, y)` coordinates within the defined simulation area.
 2.  **Antenna Frequency**: The operating frequency, continuous between 2-6 GHz.
 3.  **Antenna Element Count**: The number of antenna elements, from 1 to 8.
 
@@ -161,8 +161,8 @@ The optimization process is managed by the `main.py` script and follows these st
 2.  **Vectorized Optimization**: The advanced `PSO` class from `optimizer/pso.py` is initialized. It operates on a vectorized objective function, meaning it evaluates the entire swarm of candidate solutions (particles) in a single, efficient operation.
 
 3.  **Fitness Evaluation**: For each particle in the swarm, the objective function:
-    a.  Decodes the particle's vector into a full set of base station configurations (positions, frequencies, and antenna elements).
-    b.  Initializes a `Scenario` with these base stations and the pre-defined UEs.
+    a.  Decodes the particle's vector into a full set of RU configurations (positions, spectrum, and design of antenna elements).
+    b.  Initializes a `Scenario` with these RUs and the pre-defined UEs.
     c.  Runs a physics-based simulation using `compute_cfr` to calculate the channel gain from every base station to every UE.
     d.  Determines the strongest signal received by each UE from any base station.
     e.  Calculates a single fitness score representing the total network quality. The goal is to maximize this score.
@@ -178,9 +178,9 @@ The optimization process is managed by the `main.py` script and follows these st
     *   Renders a 3D scene using `PyVista` that visualizes the final placement of the optimized base stations among the user population.
 
 ## Contact:
-Maulik Verma
+Maulik Verma (NCSU), mverma6@ncsu.edu
 
-Yuchen Liu (NCSU) 
+Yuchen Liu (NCSU), yuchen.liu@ncsu.edu
 
 ## Acknowledgement:
 NVIDIA Omniverse Platform 
