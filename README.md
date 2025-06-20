@@ -138,7 +138,45 @@ I will be adding implementation for Particle Swarm Optimization algorithm. The r
 
 https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FParticle_swarm_optimization&psig=AOvVaw36x1gX1M2SVBNpmR974rgd&ust=1744471926515000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJist72m0IwDFQAAAAAdAAAAABAE
 
-### Particle Swarm Optimization Implementation
+
+---
+
+# AODT-PSO: 5G Base Station Optimization using PSO
+
+This project uses Particle Swarm Optimization (PSO) to find the optimal placement and configuration of 5G base stations (Radio Units - RUs) in a simulated environment. The optimization targets multiple parameters for each base station to maximize network coverage and quality for a given set of users (User Equipments - UEs).
+
+## Optimized Parameters
+
+The PSO algorithm simultaneously optimizes three key parameters for each base station:
+1.  **Location**: The `(x, y)` coordinates within the defined simulation area.
+2.  **Antenna Frequency**: The operating frequency, continuous between 2-6 GHz.
+3.  **Antenna Element Count**: The number of antenna elements, from 1 to 8.
+
+## How It Works
+
+The optimization process is managed by the `main.py` script and follows these steps:
+
+1.  **Scenario Initialization**: A specified number of UEs are randomly distributed across a defined geographical area using the `generate_ue_distribution` function.
+
+2.  **Vectorized Optimization**: The advanced `PSO` class from `optimizer/pso.py` is initialized. It operates on a vectorized objective function, meaning it evaluates the entire swarm of candidate solutions (particles) in a single, efficient operation.
+
+3.  **Fitness Evaluation**: For each particle in the swarm, the objective function:
+    a.  Decodes the particle's vector into a full set of base station configurations (positions, frequencies, and antenna elements).
+    b.  Initializes a `Scenario` with these base stations and the pre-defined UEs.
+    c.  Runs a physics-based simulation using `compute_cfr` to calculate the channel gain from every base station to every UE.
+    d.  Determines the strongest signal received by each UE from any base station.
+    e.  Calculates a single fitness score representing the total network quality. The goal is to maximize this score.
+
+4.  **Iterative Improvement**: The PSO algorithm iteratively updates the configurations. It features advanced capabilities such as:
+    *   **G-best and L-best Topologies**: To control how information is shared across the swarm.
+    *   **Stagnation Detection**: If the swarm stops improving, it automatically diversifies a portion of the particles to escape local optima.
+    *   **Adaptive Inertia**: To balance global exploration and local exploitation over the optimization run.
+
+5.  **Results and Visualization**: Once the optimization completes, the script:
+    *   Prints the best-found configuration for each base station.
+    *   Generates a performance plot showing the convergence of the best fitness, average swarm fitness, and swarm diversity over time.
+    *   Renders a 3D scene using `PyVista` that visualizes the final placement of the optimized base stations among the user population.
+
 ## Contact:
 Maulik Verma
 
@@ -148,6 +186,7 @@ Yuchen Liu (NCSU)
 NVIDIA Omniverse Platform 
 
 NAIRR Pilot Demonstration Project
+
 
 
 
