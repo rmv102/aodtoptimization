@@ -138,6 +138,7 @@ I will be adding implementation for Particle Swarm Optimization algorithm. The r
 
 https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FParticle_swarm_optimization&psig=AOvVaw36x1gX1M2SVBNpmR974rgd&ust=1744471926515000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCJist72m0IwDFQAAAAAdAAAAABAE
 
+### Particle Swarm Optimization Implementation
 ## Contact:
 Maulik Verma
 
