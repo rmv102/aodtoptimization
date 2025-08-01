@@ -108,8 +108,8 @@ Here is a singular cluster block shape with 3 base stations inside. This is the 
 In this setup, the optimization script is applied to two adjacent clusters, each measuring approximately 500x500 meters. Each cluster contains three base stations that are strategically placed to ensure seamless coverage across both areas while minimizing overlapping interference.
 
 This scenario demonstrates how the optimization process scales when multiple clusters are involved, adapting dynamically to maintain signal strength and efficiency across a larger area.
+<img width="2408" height="1276" alt="image" src="https://github.com/user-attachments/assets/a772f789-fc0e-4e3f-9f3b-7764e18b1a8c" />
 
-![image](https://github.com/user-attachments/assets/5f971515-159e-4360-a501-d28f384a9640)
 
 
 ### Three Cluster Blocks in a Row
@@ -118,7 +118,8 @@ Expanding further, this example illustrates three consecutive cluster blocks, ea
 
 This simulation provides insights into how base stations can be arranged in larger network deployments, ensuring continuous and reliable connectivity across extended regions.
 
-![image](https://github.com/user-attachments/assets/4c8ba79e-7935-40f5-af42-a18fbb8b2a30)
+<img width="886" height="684" alt="image" src="https://github.com/user-attachments/assets/3ab81e2a-94bc-4116-bae4-30bf23bdde7c" />
+
 
 
 ### Close-Up View of a Single Cluster
@@ -131,7 +132,8 @@ This close-up highlights how signal distribution is affected by environmental fa
 ### Stacked Cluster Configurations
 
 Finally, more complex configurations are possible beyond linear cluster arrangements. The example below demonstrates a stacked cluster approach, where base station clusters are positioned in a layered structure rather than in a single row.
-![image](https://github.com/user-attachments/assets/fbf931a0-b370-4392-beaa-279a93b4c3b5)
+![Uploading image.png…]()
+
 
 ### Upcoming Updates / Motivation
 I will be adding implementation for Particle Swarm Optimization algorithm. The reason for this is to allow for the optimization of atennas and base station position for the same exact time, allowing for much faster optimiation as opposed to brute force method we are currently utilizing. The particles flow independently and reform their position to navigate their way towards the best position, which in our case iswhere the base station along with it's antennas are optimized. Here is what it looks like: 
