@@ -38,9 +38,13 @@ def plot_scene(rus: List[RU], ues: List[UE], area_bounds: tuple):
     """
     min_x, max_x, min_y, max_y = area_bounds
     
-    # Create a PyVista plotter
+    # Create a PyVista plotter with improved settings
     plotter = pv.Plotter(window_size=[1024, 768])
-    plotter.set_background('white')
+    plotter.set_background('white', top='aliceblue')  # Gradient background for better depth perception
+    
+    # Set better camera and interaction settings
+    plotter.camera_position = 'iso'  # Isometric view
+    plotter.enable_trackball_style()  # Better rotation control
 
     # 1. Plot the User Equipments (UEs)
     if ues:
@@ -84,10 +88,13 @@ def plot_scene(rus: List[RU], ues: List[UE], area_bounds: tuple):
 
     # Configure plot settings
     plotter.view_isometric()
-    plotter.enable_zoom_scaling()
-    plotter.add_axes()
-    plotter.add_floor('-z', pad=0.1)
-    plotter.add_legend(bcolor=None, border=False)
+    plotter.enable_zoom_style()  # Fixed API call for newer PyVista versions
+    plotter.add_axes(interactive=True)  # Interactive axes for better orientation
+    plotter.add_floor('-z', pad=0.1, color='lightgrey', opacity=0.5)  # More visible floor
+    plotter.add_legend(bcolor=(0.9, 0.9, 0.9, 0.3), border=True, size=(0.2, 0.2))  # More visible legend
+    
+    # Add orientation widget for better navigation
+    plotter.add_orientation_widget()
 
     print("\n--- Displaying 3D Visualization ---")
     print("Close the PyVista window to exit the program.")
