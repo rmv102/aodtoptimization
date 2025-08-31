@@ -189,6 +189,8 @@ NVIDIA Omniverse Platform
 
 NAIRR Pilot Demonstration Project
 
+NVIDIA Academic Grant Program Award
+
 
 
 
