@@ -9,9 +9,10 @@ This module provides a more sophisticated PSO implementation with features like:
 - Comprehensive logging of optimization metrics.
 """
 import numpy as np
-from typing import Callable, List, Dict, Any
+from typing import Callable, List, Dict, Any, Optional
 import os
 import csv
+import json
 
 class PSO:
     """
@@ -29,7 +30,8 @@ class PSO:
                  c2: float = 2.05,
                  stagnation_patience: int = 15,
                  k: int = 3,
-                 log_to_csv: str = None):
+                 log_to_csv: str = None,
+                 on_iteration: Optional[Callable[[int, np.ndarray, float, Dict[str, Any]], None]] = None):
         """
         Initializes the PSO optimizer.
 
@@ -48,6 +50,8 @@ class PSO:
             stagnation_patience (int): Iterations to wait before diversification.
             k (int): The number of neighbors for the l-best topology (must be odd).
             log_to_csv (str, optional): Path to a CSV file to log results. Defaults to None.
+            on_iteration (Callable, optional): Callback invoked once per iteration with
+                (iteration_idx_1_based, gbest_pos, gbest_fitness, log_dict). Defaults to None.
         """
         if topology not in ['gbest', 'lbest']:
             raise ValueError("Topology must be either 'gbest' or 'lbest'.")
@@ -66,11 +70,7 @@ class PSO:
         self.stagnation_patience = stagnation_patience
         self.k = k
         self.csv_log_path = log_to_csv
-        
-        self.params_per_ru = 4
-        if self.num_dimensions % self.params_per_ru != 0:
-            raise ValueError("num_dimensions must be a multiple of parameters per RU (4).")
-        self.num_rus = self.num_dimensions // self.params_per_ru
+        self.on_iteration = on_iteration
 
         self._initialize_swarm()
 
@@ -90,7 +90,7 @@ class PSO:
                 try:
                     with open(self.csv_log_path, 'w', newline='') as f:
                         writer = csv.writer(f)
-                        writer.writerow(['iteration', 'ru_id', 'pos_x', 'pos_y', 'pos_z', 'frequency_ghz', 'elements', 'gbest_fitness_score'])
+                        writer.writerow(['iteration', 'gbest_fitness_score', 'gbest_position_json'])
                 except IOError as e:
                     print(f"Warning: Could not write header to CSV log file {self.csv_log_path}. Error: {e}")
                     self.csv_log_path = None # Disable logging if header fails
@@ -139,24 +139,11 @@ class PSO:
         """Appends the current global best solution to the CSV log file."""
         if not self.csv_log_path:
             return
-            
-        solution_reshaped = self.gbest_pos.reshape((self.num_rus, self.params_per_ru))
-        
+
         try:
             with open(self.csv_log_path, 'a', newline='') as f:
                 writer = csv.writer(f)
-                for ru_idx, params in enumerate(solution_reshaped):
-                    row = [
-                        iteration,
-                        ru_idx + 1,
-                        f"{params[0]:.2f}",
-                        f"{params[1]:.2f}",
-                        f"{params[2]:.2f}",
-                        f"{params[3]:.2f}",
-                        int(round(params[4])),
-                        f"{self.gbest_fitness:.4f}"
-                    ]
-                    writer.writerow(row)
+                writer.writerow([iteration, f"{self.gbest_fitness:.8f}", json.dumps(self.gbest_pos.tolist())])
         except IOError as e:
             print(f"Warning: Could not write to CSV log file {self.csv_log_path}. Error: {e}")
 
@@ -245,6 +232,12 @@ class PSO:
 
             # Log metrics
             self._log_metrics()
+
+            if self.on_iteration:
+                try:
+                    self.on_iteration(i + 1, self.gbest_pos.copy(), float(self.gbest_fitness), self.log)
+                except Exception as e:
+                    print(f"Warning: on_iteration callback failed at iter {i+1}. Error: {e}")
             
             if (i + 1) % 10 == 0:
                 print(f"Iter {i+1}/{self.max_iter} | G-Best Fitness: {self.gbest_fitness:.4f} | Avg Fitness: {self.log['avg_fitness'][-1]:.4f} | Diversity: {self.log['swarm_diversity'][-1]:.2f}")
@@ -283,11 +276,14 @@ if __name__ == '__main__':
     assert best_fitness < 1e-4, "Test failed: Optimizer did not converge to the expected minimum."
     print("\nAssertion passed: Optimizer successfully found the minimum of the test function.")
     
-    # You can plot the convergence
-    import matplotlib.pyplot as plt
-    plt.plot(fitness_history["gbest_fitness"])
-    plt.title("Convergence of PSO on Sphere Function")
-    plt.xlabel("Iteration")
-    plt.ylabel("Best Fitness")
-    plt.grid(True)
-    plt.show() 
+    # Optional: plot convergence if matplotlib is available
+    try:
+        import matplotlib.pyplot as plt
+        plt.plot(fitness_history["gbest_fitness"])
+        plt.title("Convergence of PSO on Sphere Function")
+        plt.xlabel("Iteration")
+        plt.ylabel("Best Fitness")
+        plt.grid(True)
+        plt.show()
+    except Exception:
+        pass

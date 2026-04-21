@@ -32,7 +32,6 @@ NUM_UES = 200
 PSO_TOPOLOGY = 'gbest'  # 'gbest' or 'lbest'
 NUM_PARTICLES = 50
 MAX_ITER = 100
-OUTPUT_CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'pso_optimization_log.csv')
 
 def parse_pso_solution(solution: np.ndarray, num_rus: int):
     """Parses a flat solution vector from PSO into a list of RU objects."""
@@ -132,7 +131,7 @@ if __name__ == "__main__":
         num_particles=NUM_PARTICLES,
         max_iter=MAX_ITER,
         topology=PSO_TOPOLOGY,
-        log_to_csv=OUTPUT_CSV_PATH
+        log_to_csv=None
     )
     
     best_solution, best_fitness, pso_log = pso.run()

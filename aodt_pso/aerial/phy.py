@@ -9,7 +9,17 @@ import numpy as np
 
 class Antenna:
     """Represents a 5G antenna with configurable properties."""
-    def __init__(self, freq: float, elements: int, gain_dbi: float = 15.0):
+    def __init__(
+        self,
+        freq: float,
+        elements: int,
+        gain_dbi: float = 15.0,
+        azimuth_deg: float = 0.0,
+        downtilt_deg: float = 0.0,
+        hpbw_az_deg: float = 65.0,
+        hpbw_el_deg: float = 65.0,
+        pattern_exponent: float = 2.0,
+    ):
         """
         Initializes the Antenna object.
 
@@ -17,6 +27,11 @@ class Antenna:
             freq (float): The operating frequency in GHz (e.g., 2.4, 3.5, 5.8).
             elements (int): The number of antenna elements.
             gain_dbi (float): The antenna gain in dBi (decibels relative to isotropic).
+            azimuth_deg (float): Antenna boresight azimuth in degrees (0 = +x, 90 = +y).
+            downtilt_deg (float): Electrical downtilt in degrees (positive tilts down).
+            hpbw_az_deg (float): Azimuth half-power beamwidth in degrees.
+            hpbw_el_deg (float): Elevation half-power beamwidth in degrees.
+            pattern_exponent (float): Controls roll-off; higher = narrower effective beam.
         """
         if not (2 <= freq <= 6):
             raise ValueError("Frequency must be between 2 and 6 GHz.")
@@ -26,6 +41,44 @@ class Antenna:
         self.freq = freq
         self.elements = elements
         self.gain_dbi = gain_dbi
+        self.azimuth_deg = float(azimuth_deg)
+        self.downtilt_deg = float(downtilt_deg)
+        self.hpbw_az_deg = float(hpbw_az_deg)
+        self.hpbw_el_deg = float(hpbw_el_deg)
+        self.pattern_exponent = float(pattern_exponent)
+
+def _wrap_deg(deg: float) -> float:
+    return (deg + 180.0) % 360.0 - 180.0
+
+def _angle_to_ue(bs_pos: np.ndarray, ue_pos: np.ndarray):
+    v = ue_pos - bs_pos
+    horiz = np.hypot(v[0], v[1])
+    az = np.degrees(np.arctan2(v[1], v[0]))  # [-180, 180], 0 = +x
+    el = np.degrees(np.arctan2(v[2], horiz)) # positive = up
+    return az, el
+
+def _directional_gain_linear(bs_pos: np.ndarray, ue_pos: np.ndarray, antenna: Antenna) -> float:
+    """
+    Simple separable directional pattern approximation.
+
+    This is intentionally lightweight (no ray tracing / multipath). It acts as a
+    “DT proxy” directional gain term to let PSO optimize azimuth/tilt.
+    """
+    az_to_ue, el_to_ue = _angle_to_ue(bs_pos, ue_pos)
+
+    # Boresight points with azimuth and downtilt (downtilt positive means down => negative elevation)
+    d_az = _wrap_deg(az_to_ue - antenna.azimuth_deg)
+    boresight_el = -antenna.downtilt_deg
+    d_el = _wrap_deg(el_to_ue - boresight_el)
+
+    # Normalize by half-power beamwidth; clamp to avoid extreme blowups
+    naz = abs(d_az) / max(1e-6, antenna.hpbw_az_deg)
+    nel = abs(d_el) / max(1e-6, antenna.hpbw_el_deg)
+
+    # Smooth roll-off: 1 / (1 + (x^p + y^p))
+    p = max(0.5, antenna.pattern_exponent)
+    att = 1.0 / (1.0 + (naz**p + nel**p))
+    return float(np.clip(att, 1e-3, 1.0))
 
 def compute_cfr(bs_pos: np.ndarray, ue_pos: np.ndarray, antenna: Antenna) -> float:
     """
@@ -69,6 +122,7 @@ def compute_cfr(bs_pos: np.ndarray, ue_pos: np.ndarray, antenna: Antenna) -> flo
     # Effective gain considering the number of elements (simple linear scaling)
     # This is a simplification; in reality, this would involve beamforming patterns.
     effective_gain = gain_linear * antenna.elements
+    effective_gain *= _directional_gain_linear(bs_pos, ue_pos, antenna)
 
     # The final channel gain is the product of path loss and antenna gain
     channel_gain = path_loss_linear * effective_gain

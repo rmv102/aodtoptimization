@@ -23,7 +23,7 @@ except (ImportError, ValueError):
     from aodt_pso.simulation.signal_map import generate_ue_distribution
 
 
-def plot_scene(rus: List[RU], ues: List[UE], area_bounds: tuple):
+def plot_scene(rus: List[RU], ues: List[UE], area_bounds: tuple, animate=False, iterations=None):
     """
     Renders a 3D scene of the simulation environment using PyVista.
 
@@ -97,10 +97,119 @@ def plot_scene(rus: List[RU], ues: List[UE], area_bounds: tuple):
     plotter.add_orientation_widget()
 
     print("\n--- Displaying 3D Visualization ---")
-    print("Close the PyVista window to exit the program.")
     
-    # Show the plot
-    plotter.show()
+    if animate and iterations:
+        print("Animation mode: Space to Play/Pause, 'n' for Next frame, 'p' for Previous frame")
+        
+        # Store references to RU actors for animation updates
+        ru_actors = []
+        ru_colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'orange']
+        
+        # Create text display for iteration and fitness
+        text = plotter.add_text(f"Iteration: 0, Fitness: 0", position='upper_left', font_size=14, color='black')
+        
+        # Animation state variables
+        current_frame = 0
+        playing = True
+        total_frames = len(iterations)
+        
+        # Create initial RU actors - we'll update these during animation
+        for i, ru in enumerate(rus):
+            color = ru_colors[i % len(ru_colors)]
+            # Create a cone for the RU
+            cone = pv.Cone(
+                center=ru.position, 
+                direction=[0, 0, -1], 
+                height=20,  # Larger height
+                radius=10   # Larger radius
+            )
+            # Add the mesh with a specific name for later reference
+            actor = plotter.add_mesh(cone, color=color, name=f'ru_{i}')
+            ru_actors.append(actor)
+        
+        def update_frame(frame_idx):
+            """Update the visualization for a specific frame"""
+            frame = iterations[frame_idx]
+            particles = frame['particles']
+            
+            # Update text display
+            plotter.remove_actor(text)
+            new_text = f"Iteration: {frame['iteration']:.1f}, Fitness: {frame['fitness']:.2f}"
+            new_text_actor = plotter.add_text(new_text, position='upper_left', font_size=14, color='black')
+            
+            # Update RU positions
+            for i, ru in enumerate(particles):
+                if i < len(ru_actors):
+                    # Remove the old actor
+                    plotter.remove_actor(ru_actors[i])
+                    
+                    # Create a new cone at the updated position
+                    color = ru_colors[i % len(ru_colors)]
+                    cone = pv.Cone(
+                        center=ru.position, 
+                        direction=[0, 0, -1], 
+                        height=20, 
+                        radius=10
+                    )
+                    # Add the new mesh and update our reference
+                    ru_actors[i] = plotter.add_mesh(cone, color=color, name=f'ru_{i}')
+            
+            # Force render update
+            plotter.render()
+        
+        def key_press_callback(key):
+            nonlocal current_frame, playing
+            
+            if key == ' ':  # Space bar - toggle play/pause
+                playing = not playing
+                if playing:
+                    print("Animation playing")
+                else:
+                    print("Animation paused")
+            
+            elif key == 'n':  # Next frame
+                playing = False  # Pause when manually navigating
+                current_frame = (current_frame + 1) % total_frames
+                update_frame(current_frame)
+                print(f"Frame: {current_frame}/{total_frames-1}")
+            
+            elif key == 'p':  # Previous frame
+                playing = False  # Pause when manually navigating
+                current_frame = (current_frame - 1) % total_frames
+                update_frame(current_frame)
+                print(f"Frame: {current_frame}/{total_frames-1}")
+        
+        # Register key press callback
+        plotter.add_key_event(' ', key_press_callback)  # Space
+        plotter.add_key_event('n', key_press_callback)  # Next
+        plotter.add_key_event('p', key_press_callback)  # Previous
+        
+        # Animation timer callback
+        def timer_callback(obj, event):
+            nonlocal current_frame
+            if playing:
+                current_frame = (current_frame + 1) % total_frames
+                update_frame(current_frame)
+        
+        # Create a timer for animation
+        plotter.iren.create_timer(1000)  # milliseconds
+        plotter.iren.add_observer('TimerEvent', timer_callback)
+        
+        # Show instructions
+        plotter.add_text(
+            "Controls:\nSpace: Play/Pause\nn: Next Frame\np: Previous Frame", 
+            position=(10, 60), 
+            font_size=12, 
+            color='black'
+        )
+        
+        # Show the plot with animation
+        print("Close the PyVista window to exit the program.")
+        plotter.show()
+    else:
+        # Show the static plot
+        print("Close the PyVista window to exit the program.")
+        plotter.show()
 
 if __name__ == '__main__':
     # Example usage for testing
